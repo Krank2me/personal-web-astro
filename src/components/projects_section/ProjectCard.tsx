@@ -18,7 +18,7 @@ export default function CommunityCard(props: ProjectCardProps) {
           aria-label={project.img_alt + ", click to open the project page"}
         >
           <LazyLoadImage
-            className="h-52 w-full object-cover"
+            className="h-40 object-scale-down w-full flex justify-center"
             src={project.img_path}
             alt={project.img_alt}
             width="100%"

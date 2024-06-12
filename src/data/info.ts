@@ -72,7 +72,7 @@ export const info = {
       title: "Cityjs Medellín",
       date: "2024",
       description:
-        "International conference and workshops about JavaScript ecosystem",
+        "International conference and workshops about JavaScript",
       link: "https://medellin.cityjsconf.org/",
       tech: ["javascript", "community", "conference", "tech", "workshops"],
       img_alt: "CityJS",
