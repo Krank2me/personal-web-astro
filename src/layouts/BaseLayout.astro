@@ -20,7 +20,15 @@ import "../styles/global.css";
     <meta name="keywords" content="portfolio, software, developer" />
     <meta name="author" content="Your Name" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/svg+xml" href="/panda.jpeg" />
+    <!-- Performance and Security Headers -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="#8B5CF6" />
+    <meta name="color-scheme" content="light dark" />
+    <!-- Favicon optimizado -->
+    <link rel="icon" type="image/jpeg" href="/panda.jpeg" />
+    <link rel="apple-touch-icon" href="/panda.jpeg" />
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
     <link
       rel="alternate"
       type="application/rss+xml"
@@ -28,19 +36,26 @@ import "../styles/global.css";
       href={`${Astro.site}rss.xml`}
     />
     <meta name="generator" content={Astro.generator} />
-    <script type="text/javascript">
-      (function () {
-        var css = document.createElement("link");
-        css.href =
-          "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css";
-        css.rel = "stylesheet";
-        css.integrity =
-          "sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==";
-        css.crossOrigin = "anonymous";
-        css.referrerPolicy = "no-referrer";
-        document.head.appendChild(css);
-      })();
-    </script>
+    <!-- Preload Font Awesome for better performance -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link
+      rel="preload"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+      />
+    </noscript>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -55,10 +70,6 @@ import "../styles/global.css";
         rel="stylesheet"
       />
     </noscript>
-    <link
-      href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"
-      rel="stylesheet"
-    />
     <title>{title}</title>
     <script>
       // On page load or when changing themes, best to add inline in `head` to avoid FOUC
@@ -71,14 +82,27 @@ import "../styles/global.css";
       } else {
         document.documentElement.classList.remove("dark");
       }
+      
+      // Register Service Worker for better caching
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
     </script>
   </head>
   <body class="bg-primary dark:bg-dk-primary min-h-screen">
-    <Nav client:visible posts={posts} />
+    <Nav client:load posts={posts} />
     <main class="container mx-auto">
       <slot />
     </main>
-    <TopButton client:only />
-    <Pointer client:only />
+    <TopButton client:idle />
+    <Pointer client:idle />
   </body>
 </html>
