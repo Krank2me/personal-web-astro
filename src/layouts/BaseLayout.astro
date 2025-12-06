@@ -44,9 +44,17 @@ import "../styles/global.css";
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="preload"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
     <link
       href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"
       rel="stylesheet"
@@ -65,11 +73,11 @@ import "../styles/global.css";
       }
     </script>
   </head>
-  <body class="bg-primary dark:bg-dk-primary w-full container mx-auto">
+  <body class="bg-primary dark:bg-dk-primary min-h-screen">
     <Nav client:visible posts={posts} />
-    <div class="container mx-auto px-4">
+    <main class="container mx-auto">
       <slot />
-    </div>
+    </main>
     <TopButton client:only />
     <Pointer client:only />
   </body>

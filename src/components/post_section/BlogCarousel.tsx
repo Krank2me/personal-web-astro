@@ -1,11 +1,9 @@
-import React, { useEffect } from "react";
-
 import Slider from "react-slick";
 
-import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import BlogCard from "./BlogCard";
+import "slick-carousel/slick/slick.css";
 import { info } from "../../data/info";
+import BlogCard from "./BlogCard";
 
 interface ProjectCarouselProps {
   blogs: (typeof info)["posts"];
@@ -91,30 +89,55 @@ export default function BlogCarousel(props: ProjectCarouselProps) {
   };
 
   return (
-    <>
-      <h1 className="text-3xl font-bold text-center mt-2 mb-5">Blog</h1>
-      <div className="flex justify-center flex-col items-center">
-        <div className="slider-container w-5/6">
-          <Slider {...settings}>
-            {posts.map((blog, index) => (
-              <div key={index} className="px-2">
-                <BlogCard key={index} blog={blog} />
-              </div>
-            ))}
-          </Slider>
-        </div>
+    <div className="w-full max-w-7xl mx-auto">
+      <div className="text-center mb-16">
+        <h2 className="text-3xl lg:text-4xl font-bold text-text dark:text-dk-text mb-6">
+          Latest Blog Posts
+        </h2>
+        <p className="text-lg text-text-secondary dark:text-dk-text-secondary max-w-2xl mx-auto">
+          Thoughts, tutorials, and insights about web development, technology,
+          and the developer community.
+        </p>
       </div>
-      <h1
-        className="text-3xl font-bold text-center mt-10 mb-5"
-      >
+
+      <div className="relative px-4 lg:px-8">
+        <Slider {...settings}>
+          {posts.map((blog, index) => (
+            <div
+              key={`blog-${index}-${blog.title
+                .replace(/\s+/g, "-")
+                .toLowerCase()}`}
+              className="px-3"
+            >
+              <BlogCard blog={blog} />
+            </div>
+          ))}
+        </Slider>
+      </div>
+
+      <div className="text-center mt-16">
         <a
           href="https://dev.to/unpandadev"
           target="_blank"
+          rel="noreferrer"
+          className="btn btn-primary inline-flex items-center gap-2"
         >
-          Stay tuned
+          <span>Read More Posts</span>
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+            />
+          </svg>
         </a>
-
-      </h1>
-    </>
+      </div>
+    </div>
   );
 }

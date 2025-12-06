@@ -24,13 +24,25 @@ export default function TopButton() {
 
   return (
     <button
-      className={`fixed right-4 bottom-4 lg:right-8 lg:bottom-8 z-50 p-2 rounded-full bg-transparent text-secondary dark:text-dk-secondary lg:hover:text-accent lg:dark:hover:text-dk-accent ${
-        isTop ? "hidden" : ""
+      className={`fixed right-4 bottom-4 lg:right-8 lg:bottom-8 z-50 w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-surface dark:bg-dk-surface border border-border dark:border-dk-border shadow-soft hover:shadow-soft-lg hover:border-accent dark:hover:border-dk-accent transition-all duration-300 hover:-translate-y-1 flex items-center justify-center group ${
+        isTop ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
       onClick={handleTop}
       aria-label="Scroll to top"
     >
-      <i className="fas fa-arrow-up text-3xl lg:text-5xl"></i>
+      <svg
+        className="w-5 h-5 lg:w-6 lg:h-6 text-text-secondary dark:text-dk-text-secondary group-hover:text-accent dark:group-hover:text-dk-accent transition-colors"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M5 10l7-7m0 0l7 7m-7-7v18"
+        />
+      </svg>
     </button>
   );
 }

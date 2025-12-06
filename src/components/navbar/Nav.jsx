@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { info } from "../../data/info";
 import ToggleDarkMode from "../ToggleDarkMode";
 import Hamburger from "./Hamburger";
-import { info } from "../../data/info";
 
 export default function Nav({ posts }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -24,74 +24,97 @@ export default function Nav({ posts }) {
 
   return (
     <>
-      <nav className="container mx-auto top-0 z-50 absolute bg-primary dark:bg-dk-primary">
-        <div className="w-full px-6 py-2 flex justify-between items-center">
-          <a className="font-bold text-2xl lg:text-4xl" href="/#">
-            <span className="text-secondary dark:text-dk-secondary">
-              {"<FrankBetancur />"}
-            </span>
-          </a>
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-surface/80 dark:bg-dk-surface/80 backdrop-blur-md border-b border-border dark:border-dk-border">
+        <div className="container mx-auto">
+          <div className="flex justify-between items-center h-16">
+            <a
+              className="font-bold text-xl lg:text-2xl text-text dark:text-dk-text hover:text-accent dark:hover:text-dk-accent transition-colors"
+              href="/#"
+            >
+              Frank Betancur
+            </a>
 
-          {/* Button for CV download */}
-          <a
-            href={info.cv}
-            download
-            className="px-4 py-2 border-2 rounded text-secondary dark:text-dk-secondary border-secondary dark:border-dk-secondary hover:bg-secondary dark:hover:bg-dk-secondary hover:text-primary dark:hover:text-primary cursor-pointer"
-          >
-            <i className="fas fa-download mr-2"></i>
-            <span className="hidden lg:inline-block font-medium">
-              Download CV
-            </span>
-            <span className="lg:hidden font-medium">CV</span>
-          </a>
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-8">
+              <ul className="flex text-text-secondary dark:text-dk-text-secondary text-base font-medium">
+                {navLinks.map((link, index) => (
+                  <li
+                    key={`nav-desktop-${link.name
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}`}
+                  >
+                    <a
+                      href={link.href}
+                      className="px-4 py-2 hover:text-accent dark:hover:text-dk-accent transition-colors"
+                    >
+                      {link.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <ToggleDarkMode />
+              <a
+                href={info.cv}
+                download
+                className="btn btn-secondary flex items-center gap-2"
+              >
+                <i className="fas fa-download text-sm"></i>
+                <span className="font-medium">Download CV</span>
+              </a>
+            </div>
 
-          <div className="inline-flex lg:hidden text-secondary dark:text-dk-secondary">
-            <Hamburger
-              onClick={() => setIsNavOpen(!isNavOpen)}
-              isNavOpen={isNavOpen}
-            />
-          </div>
-          <div className="hidden lg:block">
-            <ul className="inline-flex text-secondary dark:text-dk-secondary text-2xl font-normal">
-              {navLinks.map((link, index) => (
-                <li
-                  key={index}
-                  className="p-4 hover:text-accent dark:hover:text-dk-accent"
-                >
-                  <a href={link.href}>{link.name}</a>
-                </li>
-              ))}
-              <li className="px-4 flex">
-                <ToggleDarkMode />
-              </li>
-            </ul>
+            {/* Mobile Menu Button */}
+            <div className="lg:hidden flex items-center space-x-4">
+              <a
+                href={info.cv}
+                download
+                className="btn btn-secondary sm:hidden flex items-center gap-2"
+              >
+                <i className="fas fa-download text-sm"></i>
+              </a>
+              <Hamburger
+                onClick={() => setIsNavOpen(!isNavOpen)}
+                isNavOpen={isNavOpen}
+              />
+            </div>
           </div>
         </div>
+
+        {/* Mobile Navigation */}
         <div
-          className={
-            !isNavOpen
-              ? "hidden"
-              : "" +
-                " h-full flex flex-col items-center text-center lg:hidden dark:text-tertiary"
-          }
+          className={`${
+            !isNavOpen ? "hidden" : "block"
+          } bg-surface/95 dark:bg-dk-surface/95 backdrop-blur-md border-b border-border dark:border-dk-border lg:hidden`}
         >
-          <ul className="w-full text-secondary dark:text-dk-secondary text-xl font-semibold">
+          <ul className="container mx-auto py-4 text-text-secondary dark:text-dk-text-secondary text-base font-medium">
             {navLinks.map((link, index) => (
-              <li key={index} className="p-4">
-                <a href={link.href} onClick={() => setIsNavOpen(false)}>
+              <li
+                key={`nav-mobile-${link.name
+                  .toLowerCase()
+                  .replace(/\s+/g, "-")}`}
+                className="py-3"
+              >
+                <a
+                  href={link.href}
+                  onClick={() => setIsNavOpen(false)}
+                  className="block hover:text-accent dark:hover:text-dk-accent transition-colors"
+                >
                   {link.name}
                 </a>
               </li>
             ))}
-            <li className="p-4 flex flex-row items-center justify-evenly">
+            <li className="py-3 flex items-center justify-between">
+              <span>Theme</span>
               <ToggleDarkMode />
             </li>
           </ul>
         </div>
       </nav>
+
+      {/* Mobile Overlay */}
       {isNavOpen && (
         <div
-          className="fixed inset-0 blur-3xl bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/20 dark:bg-black/40 z-40 lg:hidden backdrop-blur-sm"
           onClick={() => setIsNavOpen(false)}
         ></div>
       )}

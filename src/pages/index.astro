@@ -12,60 +12,60 @@ const allPosts = await Astro.glob("./posts/*.md");
 ---
 
 <BaseLayout title="Frank Betancur">
-  <section class="lg:h-screen lg:m-0 my-20 mx-2" id="home">
-    <div
-      class="flex flex-col lg:flex-row justify-center items-center h-full space-y-4"
-    >
-      <div class="profile-pic">
-        <Image
-          src={info.picture}
-          alt={info.picture_alt}
-          width={200}
-          height={200}
-          class="lg:h-96 lg:w-96 h-40 w-40 rounded-full object-fill object-center space-x-8"
-        />
-      </div>
+  <section class="section-padding min-h-screen flex items-center" id="home">
+    <div class="w-full">
+      <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+        <div class="profile-pic flex-shrink-0">
+          <Image
+            src={info.picture}
+            alt={info.picture_alt}
+            width={280}
+            height={280}
+            class="w-64 h-64 lg:w-80 lg:h-80 rounded-full object-cover shadow-soft-lg"
+          />
+        </div>
 
-      <div class="flex flex-col lg:mx-8 leading-relaxed space-y-4">
-        <h1 class="text-3xl lg:text-5xl font-bold font-serif">
-          Hi, I'm <span class="bg-clip-text animate-pulse typewriter">
-            {info.name}</span
-          >
-        </h1>
-        <h2 class="text-text dark:text-dk-text">{info.brief_description}</h2>
-        <p class="text-2xl">
-          Based in <span class="text-secondary dark:text-dk-secondary"
-            >{info.location}</span
-          >
-        </p>
+        <div class="flex-1 text-center lg:text-left space-y-6">
+          <div class="space-y-4">
+            <h1 class="text-4xl lg:text-6xl font-bold">
+              Hi, I'm <span class="typewriter">
+                {info.name}
+              </span>
+            </h1>
+            <p class="text-xl lg:text-2xl text-text-secondary dark:text-dk-text-secondary font-medium">
+              {info.brief_description}
+            </p>
+            <p class="text-lg text-text-secondary dark:text-dk-text-secondary">
+              Based in <span class="text-accent dark:text-dk-accent font-medium">{info.location}</span>
+            </p>
+          </div>
+          
+          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <a href="#contact" class="btn btn-primary">
+              Get In Touch
+            </a>
+            <a href="#about" class="btn btn-secondary">
+              Learn More
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
-  <section class="lg:m-0
-        my-20
-        mx-2" id="about">
+  <section class="section-padding" id="about">
     <About about={info.about} client:visible />
   </section>
 
-  <section
-    class="lg:h-screen lg:m-0 my-20 mx-2 flex-col flex justify-center w-full"
-    id="tech"
-  >
+  <section class="section-padding bg-secondary dark:bg-dk-secondary" id="tech">
     <ProjectCarousel projects={info.projects} client:only />
   </section>
 
-  <section
-    class="lg:h-screen lg:m-0 my-20 flex-col flex justify-center w-full"
-    id="blog"
-  >
+  <section class="section-padding" id="blog">
     <BlogCarousel blogs={info.posts} client:only />
   </section>
 
-  <section
-    class="lg:h-screen lg:m-0 my-20 mx-2 flex-col flex justify-center w-full"
-    id="contact"
-  >
-    <div class="flex flex-row justify-center items-center h-full space-y-4">
+  <section class="section-padding bg-secondary dark:bg-dk-secondary" id="contact">
+    <div class="flex justify-center items-center">
       <Contact contact={info.contact} size="lg" />
     </div>
   </section>
@@ -73,22 +73,20 @@ const allPosts = await Astro.glob("./posts/*.md");
 
 <style>
   .typewriter {
-    background: linear-gradient(to left, #3333ff, #efff15, #ff0000);
+    background: linear-gradient(135deg, var(--color-accent), var(--color-text));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: animation 6s ease-in-out infinite;
-    background-size: 400% 100%;
+    animation: gradient-shift 4s ease-in-out infinite;
+    background-size: 200% 200%;
   }
 
-  @keyframes animation {
-    0%,
-    100% {
-      background-position: 0 0;
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
     }
-
     50% {
-      background-position: 100% 0;
+      background-position: 100% 50%;
     }
   }
 
